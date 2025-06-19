@@ -134,7 +134,7 @@ const productsSlice = createSlice({
         })
         .addCase(fetchProductsByFilters.rejected, (state, action) => { // Lorsque la requête de récupération des produits échoue, on met l'état de chargement à false et on enregistre l'erreur.
             state.loading = false; // On met l'état de chargement à false.
-            state.error = action.error.message; // On enregistre l'erreur retournée par la requête.
+            state.error - action.error.message; // On enregistre l'erreur retournée par la requête.
         })
         // handle fetching product details
         .addCase(fetchProductDetails.pending, (state) => { // Lorsque la requête de récupération des détails du produit est en cours, on met l'état de chargement à true.
@@ -167,6 +167,21 @@ const productsSlice = createSlice({
         .addCase(updateProduct.rejected, (state, action) => { // Lorsque la requête de mise à jour du produit échoue, on met l'état de chargement à false et on enregistre l'erreur.
             state.loading = false; // On met l'état de chargement à false.
             state.error = action.error.message; // On enregistre l'erreur retournée par la requête.
+        })
+        .addCase(fetchSimilarProducts.pending, (state) => { // Lorsque la requête de récupération des produits est en cours, on met l'état de chargement à true.
+            state.loading = true; 
+            state.error = null; // On réinitialise l'état d'erreur à null.
+        })
+        .addCase(fetchSimilarProducts.fulfilled, (state, action) => { // Lorsque la requête de récupération des produits est réussie, on met à jour l'état des produits et on réinitialise l'état de chargement.
+            state.loading = false; // On met l'état de chargement à false.
+            state.products = action.payload; // On met à jour l'état des produits avec les données retournées par la requête. On s'assure que les données sont un tableau, sinon on initialise l'état des produits avec un tableau vide.
+        })
+        .addCase(fetchSimilarProducts.rejected, (state, action) => { // Lorsque la requête de récupération des produits échoue, on met l'état de chargement à false et on enregistre l'erreur.
+            state.loading = false; // On met l'état de chargement à false.
+            state.error - action.error.message; // On enregistre l'erreur retournée par la requête.
         });
         },
     });
+
+    export const { setFilters, clearFilters } = productsSlice.actions; // On exporte les actions de mise à jour et de réinitialisation des filtres.
+    export default productsSlice.reducer; // On exporte le reducer du slice pour l'utiliser dans le store Redux.
