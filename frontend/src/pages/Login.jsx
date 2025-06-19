@@ -1,15 +1,18 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
 import login from "../assets/login.webp";
+import { loginUser } from "../redux/slices/authSlice";
+import { useDispatch } from "react-redux";            // On importe la fonction loginUser depuis le slice authSlice. Cette fonction est utilisée pour envoyer les informations de connexion à l'API et gérer la connexion de l'utilisateur.
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const dispatch = useDispatch();
 
   const handleSubmit = (e) => {
     e.preventDefault();
     // Handle registration logic here
-    console.log("Login details:", { email, password });
+     dispatch(loginUser({ email, password }))            // On utilise la fonction loginUser pour envoyer les informations de connexion à l'API. Cette fonction est définie dans le slice authSlice et est utilisée pour gérer la connexion de l'utilisateur. dispatch est une fonction de Redux qui permet d'envoyer des actions au store. Ici, on envoie l'action loginUser avec les informations de connexion (email et mot de passe) pour que l'utilisateur puisse se connecter à son compte.
   };
 
   return (
