@@ -1,6 +1,7 @@
 import { FiChevronLeft, FiChevronRight } from "react-icons/fi";
 import { Link } from "react-router-dom";
 import { useEffect, useRef, useState } from "react";
+import axios from "axios";
 
 const NewArrivals = () => {
   const scrollRef = useRef(null);                                  // Ici pour faire défiler le contenu horizontalement en utilisant la référence du conteneur. La référence est utilisée pour accéder aux propriétés de défilement du conteneur.
@@ -10,98 +11,24 @@ const NewArrivals = () => {
   const [canScrollLeft, setCanScrollLeft] = useState(false);       // Pour savoir si le contenu peut être défilé vers la gauche.
   const [canScrollRight, setCanScrollRight] = useState(true);      // Pour savoir si le contenu peut être défilé vers la droite.
 
-  const newArrivals = [
-    {
-      _id: "1",
-      name: "Stylish Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/500?random=1",
-          altText: "Stylish Jacket ",
-        },
-      ],
-    },
-    {
-      _id: "2",
-      name: "Stylish Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/500?random=2",
-          altText: "Stylish Jacket ",
-        },
-      ],
-    },
-    {
-      _id: "3",
-      name: "Stylish Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/500?random=3",
-          altText: "Stylish Jacket ",
-        },
-      ],
-    },
-    {
-      _id: "4",
-      name: "Stylish Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/500?random=4",
-          altText: "Stylish Jacket ",
-        },
-      ],
-    },
-    {
-      _id: "5",
-      name: "Stylish Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/500?random=5",
-          altText: "Stylish Jacket ",
-        },
-      ],
-    },
-    {
-      _id: "6",
-      name: "Stylish Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/500?random=6",
-          altText: "Stylish Jacket ",
-        },
-      ],
-    },
-    {
-      _id: "7",
-      name: "Stylish Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/500?random=7",
-          altText: "Stylish Jacket ",
-        },
-      ],
-    },
-    {
-      _id: "8",
-      name: "Stylish Jacket",
-      price: 120,
-      images: [
-        {
-          url: "https://picsum.photos/500/500?random=8",
-          altText: "Stylish Jacket ",
-        },
-      ],
-    },
-  ];
+  const [newArrivals, setNewArrivals] = useState([])            // Pour stocker les nouveaux produits à afficher dans la section "New Arrivals".
+  useEffect(() => {                                              // Ici on utilise useEffect pour récupérer les nouveaux produits depuis l'API lors du chargement du composant. Cela permet de charger les données nécessaires pour afficher les nouveaux produits.
+    const fetchNewArrivals = async () => {                      // On définit une fonction asynchrone pour récupérer les nouveaux produits depuis l'API.
+      try {
+        const response = await axios.get(
+          `${import.meta.env.VITE_BACKEND_URL}/api/products/new-arrivals` // On envoie une requête GET à l'API pour récupérer les nouveaux produits. Ici on dit va chercher dans localhost:9000/api/products/new-arrivals les nouveaux produits. avant ça on avait hardocodé les nouveaux produits dans le composant NewArrivals.jsx (genre const newArrivals = _id: 1, name: 'Stylish Jacket', price: 120, images: url https://picsum.photos/500/500?random=1" etc. avec un long tableau), mais maintenant on va les récupérer depuis l'API.
+        );
+        setNewArrivals(response.data);                         // On met à jour l'état newArrivals avec les données récupérées de l'API.  
+      } catch (error) {   
+        console.error("Error fetching new arrivals:", error); // On affiche une erreur dans la console si la récupération des nouveaux produits échoue.   
+      }
+    };
 
-  const handleMouseDown = (e) => {                            // Ici on gère le début du glissement en utilisant l'événement onMouseDown. Lorsque l'utilisateur appuie sur le bouton de la souris, la fonction handleMouseDown est appelée. cf(explication 2:11:00)
+      fetchNewArrivals();
+    }, []); // On appelle la fonction fetchNewArrivals lors du chargement du composant pour récupérer les nouveaux produits.
+  
+  
+      const handleMouseDown = (e) => {                            // Ici on gère le début du glissement en utilisant l'événement onMouseDown. Lorsque l'utilisateur appuie sur le bouton de la souris, la fonction handleMouseDown est appelée. cf(explication 2:11:00)
     setIsDragging(true);                                      // On met à jour l'état isDragging à true pour indiquer que l'utilisateur est en train de faire glisser le contenu.
     setStartX(e.pageX - scrollRef.current.offsetLeft);        // On stocke la position X de départ du curseur en soustrayant la position gauche du conteneur de défilement. Cela permet de calculer la distance entre le curseur et le début du conteneur.
     setScrollLeft(scrollRef.current.scrollLeft);              // On stocke la position de défilement initiale du conteneur avant le glissement. Cela permet de savoir où se trouve le contenu avant que l'utilisateur ne commence à faire glisser le conteneur.
@@ -145,7 +72,7 @@ const NewArrivals = () => {
       updateScrollButtons();                                     // On appelle la fonction pour mettre à jour les boutons de défilement immédiatement après l'ajout de l'écouteur d'événement.                   
       return () => container.removeEventListener("scroll", updateScrollButtons); // On retourne une fonction de nettoyage qui supprime l'écouteur d'événement de défilement lorsque le composant est démonté ou que la référence change. Cela permet d'éviter les fuites de mémoire et les erreurs liées à des écouteurs d'événements obsolètes.                                       
     }
-  }, []);
+  }, [newArrivals]); // Le tableau de dépendances [newArrivals] indique que l'effet doit être exécuté à chaque fois que newArrivals change. Cela garantit que les boutons de défilement sont mis à jour lorsque les nouveaux produits sont récupérés depuis l'API.
   
   return (
     <section className="py-16 px-4 lg:px-0 no-scrollbar">
