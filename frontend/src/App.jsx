@@ -17,9 +17,11 @@ import UserManagement from "./components/Admin/UserManagement";
 import ProductManagement from "./components/Admin/ProductManagement"; // Importing the ProductManagement component for managing products in the admin panel
 import EditProductPage from "./components/Admin/EditProductPage";
 import OrderManagement from "./components/Admin/OrderManagement"; // Importing the OrderManagement component for managing orders in the admin panel
-
+import {Provider } from "react-redux";
+import store from "./redux/store"; // Importing the Redux store for state management
 const App = () => {
   return (
+    <Provider store={store}>                                     {/* On utilise le Provider de Redux pour fournir le store à l'ensemble de l'application. Cela permet à tous les composants de l'application d'accéder au store et de se connecter aux données qu'il contient. */}
     <BrowserRouter>                                              {/* On utilise BrowserRouter pour gérer les routes. Les routes servent à naviguer entre différentes pages de l'application. Par exemple on pourrait avoir une route pour la page d'accueil, une autre pour la page de contact, etc. */}
       <Toaster position="top-right"/>                            {/* Toaster est utilisé pour afficher des notifications à l'utilisateur. Par exemple, lorsqu'une action réussit ou échoue, une notification peut être affichée pour informer l'utilisateur. */}
       <Routes>
@@ -44,6 +46,7 @@ const App = () => {
           </Route>
       </Routes>
     </BrowserRouter>
+    </Provider>
   );
 };
 export default App;
