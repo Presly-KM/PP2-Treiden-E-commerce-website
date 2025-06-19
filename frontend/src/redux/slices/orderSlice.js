@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
-import Order from '../../../../backend/models/Order';
+
 
 // Async thunk to fetch user orders
 export const fetchUserOrders = createAsyncThunk(
@@ -82,3 +82,5 @@ const orderSlice = createSlice({
             });
     },
 });
+
+export default orderSlice.reducer; // Export the reducer to be used in the store
