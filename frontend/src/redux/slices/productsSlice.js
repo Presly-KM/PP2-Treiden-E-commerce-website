@@ -88,7 +88,7 @@ const productsSlice = createSlice({
         loading: false, // On initialise l'état de chargement à false.
         error: null, // On initialise l'état d'erreur à null.       
         filters: {
-            category: null, // On initialise les filtres avec des valeurs nulles.
+            category: "", // On initialise les filtres avec des valeurs nulles.
             size: "", // On initialise le filtre de taille avec une chaîne vide.
             color: "", // On initialise le filtre de couleur avec une chaîne vide.
             gender: "", // On initialise le filtre de genre avec une chaîne vide.
@@ -107,7 +107,7 @@ const productsSlice = createSlice({
         },
         clearFilters: (state) => { // On crée un reducer pour réinitialiser les filtres.
             state.filters = { // On réinitialise les filtres à leurs valeurs initiales. 
-                category: null,
+                category: "",
                 size: "",
                 color: "",
                 gender: "", // On initialise le filtre de genre avec une chaîne vide.
@@ -134,7 +134,7 @@ const productsSlice = createSlice({
         })
         .addCase(fetchProductsByFilters.rejected, (state, action) => { // Lorsque la requête de récupération des produits échoue, on met l'état de chargement à false et on enregistre l'erreur.
             state.loading = false; // On met l'état de chargement à false.
-            state.error - action.error.message; // On enregistre l'erreur retournée par la requête.
+            state.error = action.error.message; // On enregistre l'erreur retournée par la requête.
         })
         // handle fetching product details
         .addCase(fetchProductDetails.pending, (state) => { // Lorsque la requête de récupération des détails du produit est en cours, on met l'état de chargement à true.
@@ -174,11 +174,11 @@ const productsSlice = createSlice({
         })
         .addCase(fetchSimilarProducts.fulfilled, (state, action) => { // Lorsque la requête de récupération des produits est réussie, on met à jour l'état des produits et on réinitialise l'état de chargement.
             state.loading = false; // On met l'état de chargement à false.
-            state.products = action.payload; // On met à jour l'état des produits avec les données retournées par la requête. On s'assure que les données sont un tableau, sinon on initialise l'état des produits avec un tableau vide.
+            state.similarProducts = action.payload; // On met à jour l'état des produits avec les données retournées par la requête. On s'assure que les données sont un tableau, sinon on initialise l'état des produits avec un tableau vide.
         })
         .addCase(fetchSimilarProducts.rejected, (state, action) => { // Lorsque la requête de récupération des produits échoue, on met l'état de chargement à false et on enregistre l'erreur.
             state.loading = false; // On met l'état de chargement à false.
-            state.error - action.error.message; // On enregistre l'erreur retournée par la requête.
+            state.error = action.error.message; // On enregistre l'erreur retournée par la requête.
         });
         },
     });
