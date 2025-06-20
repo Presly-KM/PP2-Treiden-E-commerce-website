@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk, __DO_NOT_USE__ActionTypes } from '@reduxjs/toolkit';
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
 import axios from 'axios';
 
 // Fetch all orders (admin only)
@@ -98,7 +98,7 @@ const adminOrderSlice = createSlice({
             state.error = action.payload.message; // Reset error state
         })
         // Update order status
-        .addCase(updateOrderStatus.pending, (state,action) => {
+        .addCase(updateOrderStatus.fulfilled, (state,action) => {
            const updatedOrder = action.payload; // Get the updated order from the action payload
            const orderIndex = state.orders.findIndex(
             (order) => order._id === updatedOrder._id
