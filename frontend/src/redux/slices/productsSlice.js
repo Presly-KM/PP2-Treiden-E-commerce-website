@@ -23,7 +23,7 @@ async ({
     if (collection) query.append("collection", collection); // On ajoute le paramètre de collection à la requête si il est spécifié.
     if (size) query.append("size", size); // On ajoute le paramètre de taille à la requête si il est spécifié.
     if (color) query.append("color", color); // On ajoute le paramètre de couleur à la requête si il est spécifié.      
-    if (gender) query.apppend("gender", gender); // On ajoute le paramètre de genre à la requête si il est spécifié.
+    if (gender) query.append("gender", gender); // On ajoute le paramètre de genre à la requête si il est spécifié.
     if (minPrice) query.append("minPrice", minPrice); // On ajoute le paramètre de prix minimum à la requête si il est spécifié.
     if (maxPrice) query.append("maxPrice", maxPrice); // On ajoute le paramètre de prix maximum à la requête si il est spécifié.
     if (sortBy) query.append("sortBy", sortBy); // On ajoute le paramètre de tri à la requête si il est spécifié.
