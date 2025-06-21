@@ -77,8 +77,7 @@ const authSlice = createSlice({
         .addCase(loginUser.rejected, (state, action) => { // Lorsque la requête de connexion échoue, on met l'état de chargement à false et on enregistre l'erreur.
             state.loading = false; // On met l'état de chargement à false.
             state.error = action.payload.message; // On enregistre l'erreur retournée par la requête.
-        });
-        builder
+        })
         .addCase(registerUser.pending, (state) => { // Lorsque la requête d'inscription est en cours, on met l'état de chargement à true.
             state.loading = true;
             state.error = null; // On réinitialise l'état d'erreur à null.

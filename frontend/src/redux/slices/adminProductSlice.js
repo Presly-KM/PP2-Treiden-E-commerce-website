@@ -56,7 +56,7 @@ export const deleteProduct = createAsyncThunk(
     "adminProducts/deleteProduct",
     async (id) => {
         await axios.delete(
-            `${API_URL}/api/admin/products/${id}`,
+            `${API_URL}/api/products/${id}`,
             {
                 headers: { 
                     Authorization: USER_TOKEN }, // Authorization header with the user's token
@@ -92,7 +92,7 @@ const adminProductSlice = createSlice({
             })
             // Update product
             .addCase(updateProduct.fulfilled, (state, action) => {
-                const index = state.products.findIndex(product => product._id === action.payload._id); // Find the index of the updated product
+                const index = state.products.findIndex((product) => product._id === action.payload._id); // Find the index of the updated product
                 if (index !== -1) {
                     state.products[index] = action.payload; // Update the product in the products array
                 }

@@ -1,6 +1,5 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { FaFilter } from "react-icons/fa";
-import { useRef } from "react";
 import FilterSidebar from "../components/Products/FilterSidebar";
 import SortOptions from "../components/Products/SortOptions";
 import ProductGrid from "../components/Products/ProductGrid";
@@ -73,7 +72,7 @@ const CollectionPage = () => {
         <SortOptions />
 
         {/* Products Grid */}
-        <ProductGrid products={products} loading={loading} error= {error}/>
+        <ProductGrid products={products} loading={loading} error={error}/>
         
       </div>
     </div>

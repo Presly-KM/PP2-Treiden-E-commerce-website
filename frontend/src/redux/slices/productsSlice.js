@@ -134,7 +134,7 @@ const productsSlice = createSlice({
         })
         .addCase(fetchProductsByFilters.rejected, (state, action) => { // Lorsque la requête de récupération des produits échoue, on met l'état de chargement à false et on enregistre l'erreur.
             state.loading = false; // On met l'état de chargement à false.
-            state.error = action.error.message; // On enregistre l'erreur retournée par la requête.
+            state.error - action.error.message; // On enregistre l'erreur retournée par la requête.
         })
         // handle fetching product details
         .addCase(fetchProductDetails.pending, (state) => { // Lorsque la requête de récupération des détails du produit est en cours, on met l'état de chargement à true.

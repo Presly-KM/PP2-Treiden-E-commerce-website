@@ -10,7 +10,7 @@ export const fetchUsers = createAsyncThunk("admin/fetchUsers", async () => {
         headers: { Authorization: `Bearer ${localStorage.getItem("userToken")}`}, // Authorization header with the user's token
         }
     );
-    response.data; // Return the fetched users
+    return response.data; // Return the fetched users
 });
 
 // Add the create user action 
@@ -46,7 +46,7 @@ export const updateUser = createAsyncThunk(
             },
         }
         );
-        response.data; // Return the updated user data
+        return response.data.user; // Return the updated user data
     }
 );
 
@@ -75,7 +75,6 @@ const adminSlice = createSlice({
         builder
             .addCase(fetchUsers.pending, (state) => {
                 state.loading = true; // Set loading to true when the request is pending
-                state.error = null; // Reset error state
             })
             .addCase(fetchUsers.fulfilled, (state, action) => {
                 state.loading = false; // Set loading to false when the request is fulfilled
