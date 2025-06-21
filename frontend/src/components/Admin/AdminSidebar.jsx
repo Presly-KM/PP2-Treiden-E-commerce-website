@@ -1,13 +1,18 @@
-import React from "react";
 import { FaBoxOpen, FaClipboardList, FaSignOutAlt, FaStore, FaUser } from "react-icons/fa";
-import { useNavigate } from "react-router-dom"; // Importing useNavigate from react-router-dom to handle navigation
-import { NavLink } from "react-router-dom";
-import { Link } from "react-router-dom";
+import { Link, NavLink, useNavigate } from "react-router-dom"; // Importing useNavigate from react-router-dom to handle navigation
+import {logout} from "../../redux/slices/authSlice"; // Importing logout action from authSlice
+import { useDispatch } from "react-redux";
+import { clearCart } from "../../redux/slices/cartSlice";
+
 
 const AdminSidebar = () => {
     const navigate = useNavigate();
-    const handleLogout = () => {
-        navigate("/");                        // Redirect to home page on logout
+     const dispatch = useDispatch();
+    
+     const handleLogout = () => {
+        dispatch(logout());
+        dispatch(clearCart());
+      navigate("/");                        // Redirect to home page on logout
     }
   return (
     <div className="p-6">

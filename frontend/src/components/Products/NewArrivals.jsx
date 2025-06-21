@@ -12,6 +12,7 @@ const NewArrivals = () => {
   const [canScrollRight, setCanScrollRight] = useState(true);      // Pour savoir si le contenu peut être défilé vers la droite.
 
   const [newArrivals, setNewArrivals] = useState([])            // Pour stocker les nouveaux produits à afficher dans la section "New Arrivals".
+  
   useEffect(() => {                                              // Ici on utilise useEffect pour récupérer les nouveaux produits depuis l'API lors du chargement du composant. Cela permet de charger les données nécessaires pour afficher les nouveaux produits.
     const fetchNewArrivals = async () => {                      // On définit une fonction asynchrone pour récupérer les nouveaux produits depuis l'API.
       try {

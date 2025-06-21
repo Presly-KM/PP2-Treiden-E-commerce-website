@@ -3,6 +3,9 @@ const dotenv = require('dotenv');
 const Product = require('./models/Product'); // On importe le modèle Product pour interagir avec la collection 'products' dans la base de données.
 const User = require('./models/User'); // On importe le modèle User pour interagir avec la collection 'users' dans la base de données.
 const Cart = require('./models/Cart'); // On importe le modèle Cart pour interagir avec la collection 'carts' dans la base de données.
+const Checkout = require('./models/Checkout'); // On importe le modèle Checkout pour interagir avec la collection 'checkouts' dans la base de données.
+const Order = require('./models/Order'); // On importe le modèle Order pour interagir avec la collection 'orders' dans la base de données.
+
 const products = require("./data/products"); // On importe les données des produits depuis un fichier JSON.
 
 dotenv.config();  // On charge les variables d'environnement depuis le fichier .env.
@@ -17,6 +20,9 @@ const seedData = async () => {
         await Product.deleteMany();
         await User.deleteMany(); // On supprime les utilisateurs existants
         await Cart.deleteMany(); // On supprime les paniers existants
+        await Checkout.deleteMany();
+        await Order.deleteMany();
+        
         // Créer un utilisateur administrateur par défaut 
         const createdUser = await User.create({ // On crée un nouvel utilisateur avec les données fournies.
             name: "Admin User",

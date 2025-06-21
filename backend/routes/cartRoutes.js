@@ -11,7 +11,6 @@ const getCart = async (userId, guestId) => {
         return await Cart.findOne({ user: userId });
     } else if (guestId) {
         return await Cart.findOne({ guestId });
-
     }
     return null; // If neither userId nor guestId is provided, return null  
 };
@@ -22,7 +21,7 @@ const getCart = async (userId, guestId) => {
 router.post('/', async (req, res) => {
     const { productId, quantity, size, color, guestId, userId } = req.body; //  On récupère les données du produit, la quantité, la taille, la couleur, l'ID de l'invité et l'ID de l'utilisateur depuis le corps de la requête. 
     try  {  
-        const product = await  Product.findById(productId); // On cherche le produit dans la base de données en utilisant l'ID du produit fourni dans la requête.
+        const product = await Product.findById(productId); // On cherche le produit dans la base de données en utilisant l'ID du produit fourni dans la requête.
         if (!product) return res.status(404).json({ message: 'Product not found' }); // Si le produit n'est pas trouvé, on renvoie une erreur 404.
         
 
@@ -105,7 +104,7 @@ router.post('/', async (req, res) => {
             if (productIndex > -1) { // Si le produit existe déjà dans le panier, on met à jour la quantité.
                 // Update quantity
                 if (quantity > 0) {
-                    cart.products[productIndex].quantity =  quantity; // On met à jour la quantité du produit dans le panier.
+                    cart.products[productIndex].quantity = quantity; // On met à jour la quantité du produit dans le panier.
                 } else {
                     cart.products.splice(productIndex, 1); // Si la quantité est inférieure ou égale à zéro, on supprime le produit du panier.
                 }
@@ -192,7 +191,7 @@ if (productIndex > -1) { // Si le produit existe déjà dans le panier, on le su
             
              if (userCart) {
                 // Si le panier de l'utilisateur existe déjà, on fusionne les produits du panier de l'invité dans le panier de l'utilisateur.
-                guestCart.products.forEach((item) => {
+                guestCart.products.forEach((guestItem) => {
                     const productIndex = userCart.products.findIndex(
                         (item) => // On cherche l'index du produit dans le panier de l'utilisateur en fonction de l'ID du produit, de la taille et de la couleur.  
                         item.productId.toString() === guestItem.productId.toString() && // On vérifie si le produit existe déjà dans le panier de l'utilisateur.

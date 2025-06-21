@@ -41,7 +41,7 @@ const AdminLayout = () => {
             <Outlet/>                          {/* Ici, on utilise Outlet pour retouner les composants enfants de la route actuelle. Cela permet de charger dynamiquement le contenu des pages enfants dans la mise en page AdminLayout. */}
         </div>
     </div>
-  )
-}
+  );
+};
 
-export default AdminLayout
+export default AdminLayout;

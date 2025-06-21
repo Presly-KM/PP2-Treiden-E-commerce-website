@@ -1,40 +1,19 @@
 import { useEffect } from "react";
-import { Link, useParams } from "react-router-dom"; // useParams is a hook that allows you to access the parameters of the current route.
-import { useState } from "react"; // useState is a hook that allows you to add state to your functional components.
+import { useDispatch, useSelector } from "react-redux";
+import { Link, useParams } from "react-router-dom";
+import { fetchOrderDetails } from "../redux/slices/orderSlice";
 
 const OrderDetailsPage = () => {
-  const { id } = useParams(); // useParams is used to access the dynamic parameters in the URL, in this case, the order ID.
-  const [orderDetails, setOrderDetails] = useState(null); // State to hold the order details.
+  const { id } = useParams();
+  const dispatch = useDispatch();
+  const { orderDetails, loading, error } = useSelector((state) => state.orders);
 
   useEffect(() => {
-    // Ici on utilise useEffect pour simuler un appel API pour récupérer les détails de la commande. useEffect est un hook qui permet d'exécuter du code après le rendu du composant.
-    const mockOrderDetails = {
-      _id: id,
-      createdAt: new Date(),
-      isPaid: true,
-      isDelivered: false,
-      PaymentMethod: "Paypal",
-      shippingMethod: "Standard",
-      shippingAddress: { city: "New York", country: "USA" },
-      orderItems: [
-        {
-          productId: "1",
-          name: "Jacket",
-          price: 120,
-          quantity: 1,
-          image: "https://picsum.photos/150?random=1",
-        },
-        {
-          productId: "2",
-          name: "T-shirt",
-          price: 80,
-          quantity: 2,
-          image: "https://picsum.photos/150?random=2",
-        },
-      ],
-    };
-    setOrderDetails(mockOrderDetails); // Simulating an API call to fetch order details.
-  }, [id]); // The effect runs when the component mounts and whenever the id changes.
+    dispatch(fetchOrderDetails(id));
+  }, [dispatch, id]);
+
+  if (loading) return <p>Loading...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">
@@ -43,7 +22,7 @@ const OrderDetailsPage = () => {
         <p>No Order details found</p>
       ) : (
         <div className="p-4 sm:p-6 rounded-lg border">
-          {/*Order Info*/}
+          {/* Order Info */}
           <div className="flex flex-col sm:flex-row justify-between mb-8">
             <div>
               <h3 className="text-lg md:text-xl font-semibold">
@@ -74,23 +53,23 @@ const OrderDetailsPage = () => {
               </span>
             </div>
           </div>
-          {/*Customer, Payment, Shipping Info*/}
+          {/* Customer, Payment, Shipping Info */}
           <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-8 mb-8">
             <div>
               <h4 className="text-lg font-semibold mb-2">Payment Info</h4>
-              <p> Payment Method: {orderDetails.paymentMethod}</p>
-              <p> Status: {orderDetails.isPaid ? "Paid" : "Unpaid"}</p>
+              <p>Payment Method: {orderDetails.paymentMethod}</p>
+              <p>Status: {orderDetails.isPaid ? "Paid" : "Unpaid"}</p>
             </div>
             <div>
               <h4 className="text-lg font-semibold mb-2">Shipping Info</h4>
-              <p> Shipping Method: {orderDetails.shippingMethod}</p>
+              <p>Shipping Method: {orderDetails.shippingMethod}</p>
               <p>
                 Address:{" "}
                 {`${orderDetails.shippingAddress.city}, ${orderDetails.shippingAddress.country}`}
               </p>
             </div>
           </div>
-          {/*Product List*/}
+          {/* Product list */}
           <div className="overflow-x-auto">
             <h4 className="text-lg font-semibold mb-4">Products</h4>
             <table className="min-w-full text-gray-600 mb-4">
@@ -119,18 +98,18 @@ const OrderDetailsPage = () => {
                       </Link>
                     </td>
                     <td className="py-2 px-4">${item.price}</td>
-                    <td className="py-2 px-4">${item.quantity}</td>
-                    <td className="py-2 px-4">${item.price * item.quantity}{" "}</td>
+                    <td className="py-2 px-4">{item.quantity}</td>
+                    <td className="py-2 px-4">${item.price * item.quantity}</td>
                   </tr>
                 ))}
               </tbody>
             </table>
           </div>
 
-            {/*Back to Orders Link*/}
-            <Link to="/my-orders" className="text-blue-500 hover:underline">
-             Back to My Orders
-            </Link>
+          {/* Back to Orders Link */}
+          <Link to="/my-orders" className="text-blue-500 hover:underline">
+            Back to My Orders
+          </Link>
         </div>
       )}
     </div>

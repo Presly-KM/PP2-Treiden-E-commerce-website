@@ -7,8 +7,6 @@ const router = express.Router();
 // @route GET /api/admin/users
 // @desc Get all users (Admin only)
 // @access Private/Admin
-
-
 router.get('/', protect, admin, async (req, res) => {
     try {
         const users = await User.find({}); // On récupère tous les utilisateurs de la base de données.
@@ -69,7 +67,6 @@ router.put('/:id', protect, admin, async (req, res) => {
 // @route DELETE /api/admin/users/:id
 // @desc Delete a user (Admin only)
 // @access Private/Admin
-
 router.delete('/:id', protect, admin, async (req, res) => {
 try {
     const user = await User.findById(req.params.id); // On recherche l'utilisateur par son ID dans la base de données.

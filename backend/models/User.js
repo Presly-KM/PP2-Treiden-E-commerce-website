@@ -12,7 +12,7 @@ const userSchema = new mongoose.Schema({  // On définit le schéma de données 
             required: true,
             unique: true,
             trim: true,
-            match:[/.+\@.+\..+/, 'Please enter a valid email address'] // On ajoute une validation pour l'email (un regex ?).
+            match:[/.+\@.+\..+/, 'Please enter a valid email address'], // On ajoute une validation pour l'email (un regex ?).
         },
         password: {
             type: String,

@@ -1,22 +1,29 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-
+import {
+  deleteProduct,
+  fetchAdminProducts,
+} from "../../redux/slices/adminProductSlice";
 
 const ProductManagement = () => {
-  const products = [
-    {
-      _id: 123123,
-      name: "Shirt",
-      price: 110,
-      sku: 123123123,
-    },
-  ];
+  const dispatch = useDispatch();
+  const { products, loading, error } = useSelector(
+    (state) => state.adminProducts
+  );
+
+  useEffect(() => {
+    dispatch(fetchAdminProducts());
+  }, [dispatch]);
 
   const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete this product?")) {
-      console.log("Deleting product with ID:", id);
-      // Here you would typically call an API to delete the product from the backend
+    if (window.confirm("Are you sure you want to delete the Product?")) {
+      dispatch(deleteProduct(id));
     }
-  }
+  };
+
+  if (loading) return <p>Loading ...</p>;
+  if (error) return <p>Error: {error}</p>;
 
   return (
     <div className="max-w-7xl mx-auto p-6">
@@ -50,8 +57,10 @@ const ProductManagement = () => {
                     >
                       Edit
                     </Link>
-                    <button onClick={() => handleDelete(product._id)}
-                         className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600">
+                    <button
+                      onClick={() => handleDelete(product._id)}
+                      className="bg-red-500 text-white px-2 py-1 rounded hover:bg-red-600"
+                    >
                       Delete
                     </button>
                   </td>
@@ -60,7 +69,7 @@ const ProductManagement = () => {
             ) : (
               <tr>
                 <td colSpan={4} className="p-4 text-center text-gray-500">
-                  No products found.
+                  No Products found.
                 </td>
               </tr>
             )}
@@ -70,5 +79,4 @@ const ProductManagement = () => {
     </div>
   );
 };
-
 export default ProductManagement;

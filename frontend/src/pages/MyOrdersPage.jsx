@@ -1,52 +1,27 @@
 import { useEffect } from "react";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom"; // Importing useNavigate from react-router-dom to handle navigation
+import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { fetchUserOrders } from "../redux/slices/orderSlice";
 
 const MyOrdersPage = () => {
-  const [orders, setOrders] = useState([]);
-  const navigate = useNavigate(); // Importing useNavigate from react-router-dom to handle navigation
+  const navigate = useNavigate();
+  const dispatch = useDispatch();
+  const { orders, loading, error } = useSelector((state) => state.orders);
 
   useEffect(() => {
-    //Simulate fetching orders
-    setTimeout(() => {
-      const mockOrders = [
-        {
-          _id: 12345,
-          createdAt: new Date(),
-          shippingAdress: { city: "New York", country: "USA" },
-          orderItems: [
-            {
-              name: "Product 1",
-              image: "https://picsum.photos/500/500?random=1",
-            },
-          ],
-          totalPrice: 100,
-          isPaid: true,
-        },
-        {
-          _id: 67890,
-          createdAt: new Date(),
-          shippingAdress: { city: "Los Angeles", country: "USA" },
-          orderItems: [
-            {
-              name: "Product 2",
-              image: "https://picsum.photos/500/500?random=2",
-            },
-          ],
-          totalPrice: 100,
-          isPaid: true,
-        },
-      ];
-      setOrders(mockOrders);
-    }, 1000);
-  }, []); // [] Veut dire que l'effet ne s'exécute qu'une seule fois, au montage du composant. Cela est utile pour simuler un appel API ou une action qui ne doit se produire qu'une seule fois, comme le chargement initial des données. C'est à dire que l'effet ne sera pas réexécuté lors des mises à jour du composant, ce qui est souvent le cas pour les appels API ou les initialisations de données.
+    dispatch(fetchUserOrders());
+  }, [dispatch]);
 
   const handleRowClick = (orderId) => {
-    navigate(`/order/${orderId}`); // Navigate to the order details page with the clicked order ID
+    navigate(`/order/${orderId}`);
   };
+
+  if (loading) return <p>Loading ...</p>;
+  if (error) return <p>Error: {error}</p>;
+
   return (
     <div className="max-w-7xl mx-auto p-4 sm:p-6">
-      <h2 className="text-xl sm:text-2xl font-bold mb-6"> My Orders </h2>
+      <h2 className="text-xl sm:text-2xl font-bold mb-6">My Orders</h2>
       <div className="relative shadow-md sm:rounded-lg overflow-hidden">
         <table className="min-w-full text-left text-gray-500">
           <thead className="bg-gray-100 text-xs uppercase text-gray-700">
@@ -65,8 +40,8 @@ const MyOrdersPage = () => {
               orders.map((order) => (
                 <tr
                   key={order._id}
-                  onClick={() => handleRowClick(order._id)} // Assuming handleRowClick is a function to navigate to order details
-                  className="border-b hover:border-gray-50 cursor-pointer "
+                  onClick={() => handleRowClick(order._id)}
+                  className="border-b hover:border-gray-50 cursor-pointer"
                 >
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
                     <img
@@ -75,20 +50,16 @@ const MyOrdersPage = () => {
                       className="w-10 h-10 sm:w-12 sm:h-12 object-cover rounded-lg"
                     />
                   </td>
-                  <td
-                    className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 
-                   whitespace-nowrap"
-                  >
+                  <td className="py-2 px-2 sm:py-4 sm:px-4 font-medium text-gray-900 whitespace-nowrap">
                     #{order._id}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
-                    {new Date(order.createdAt).toLocaleDateString()}
-                    {""}
+                    {new Date(order.createdAt).toLocaleDateString()}{" "}
                     {new Date(order.createdAt).toLocaleTimeString()}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
-                    {order.shippingAdress
-                      ? ` ${order.shippingAdress.city}, ${order.shippingAdress.country}`
+                    {order.shippingAddress
+                      ? `${order.shippingAddress.city}, ${order.shippingAddress.country}`
                       : "N/A"}
                   </td>
                   <td className="py-2 px-2 sm:py-4 sm:px-4">
@@ -112,7 +83,7 @@ const MyOrdersPage = () => {
               ))
             ) : (
               <tr>
-                <td colSpan="7" className="py-4 px-4 text-center text-gray-500">
+                <td colSpan={7} className="py-4 px-4 text-center text-gray-500">
                   You have no orders
                 </td>
               </tr>

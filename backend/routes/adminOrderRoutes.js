@@ -22,7 +22,7 @@ router.get('/', protect, admin, async (req, res) => {
 // @access Private/Admin
 router.put('/:id', protect, admin, async (req, res) => {
     try {
-        const order = await Order.findById(req.params.id); // On recherche la commande par son ID dans la base de données.
+        const order = await Order.findById(req.params.id).populate("user", "name"); // On recherche la commande par son ID dans la base de données.
         if (order) {
            order.status = req.body.status || order.status; // On met à jour le statut de la commande si un nouveau statut est fourni.
            order.isDelivered = 

@@ -111,7 +111,7 @@ router.put('/:id', protect, admin, async (req, res) => { // On définit la route
             product.name = name || product.name;              // On met à jour les champs du produit avec les nouvelles valeurs fournies dans le corps de la requête. Si une valeur n'est pas fournie, on garde la valeur actuelle du produit.
             product.description = description || product.description;
             product.price = price || product.price;
-            product.discountedPrice = discountedPrice || product.discountedPrice;
+            product.discountPrice = discountedPrice || product.discountPrice;
             product.countInStock = countInStock || product.countInStock;
             product.category = category || product.category;
             product.brand = brand || product.brand;
@@ -302,14 +302,12 @@ router.get('/:id', async (req, res) => { // On définit la route GET pour récup
     try {
         const product = await Product.findById(req.params.id); // On utilise la méthode findById() du modèle Product pour rechercher un produit dans la base de données en utilisant l'ID passé dans les paramètres de la requête (req.params.id). Cela permet de trouver le produit que l'on souhaite récupérer.
         if (product) {
-            res.json(product); // Si le produit est trouvé, on renvoie le produit sous forme de réponse JSON. Cela permet au front-end de récupérer et d'afficher les détails du produit sur la page de détails du produit.
+          res.json(product); // Si le produit est trouvé, on renvoie le produit sous forme de réponse JSON. Cela permet au front-end de récupérer et d'afficher les détails du produit sur la page de détails du produit.
         } else {
-            res.status(404).json({ message: "Product not found" }); // Si le produit n'est pas trouvé, on renvoie une réponse 404 (Not Found) avec un message d'erreur.
+            console.error(error); // On affiche une erreur dans la console si le produit n'est pas trouvé.
+            res.status(500).send("Server Error"); // Si le produit n'est pas trouvé, on renvoie une réponse 404 (Not Found) avec un message d'erreur.
         }
-        } catch (error) {
-        console.error(error); // On affiche une erreur dans la console si la récupération du produit échoue.        
-        res.status(500).send("Server Error"); // On renvoie une réponse 500 (Internal Server Error) si une erreur se produit lors de la récupération du produit.
-    }
+        } catch (error) {}
     });
 
     // @route GET /api/products/similar/:id      // Route pour récupérer des produits similaires
@@ -336,6 +334,5 @@ router.get('/similar/:id', async (req, res) => { // On définit la route GET pou
         res.status(500).send("Server Error"); // On renvoie une réponse 500 (Internal Server Error) si une erreur se produit lors de la récupération des produits similaires.
        }          
 });
-
 
 module.exports = router; // On exporte le routeur pour l'utiliser dans d'autres fichiers de l'application. Cela permet de centraliser la logique des routes liées aux produits et de les rendre accessibles depuis d'autres parties de l'application, comme le fichier principal du serveur (par exemple, app.js ou server.js).

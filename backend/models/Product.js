@@ -43,7 +43,7 @@ colors : {
     required: true,
 },
 collections: {
-    type: [String],
+    type: String,
     required: true,
 },
 material: {
@@ -53,15 +53,16 @@ gender: {
     type: String,
     enum: ["Men", "Women", "Unisex"],
 },
-images: [{
+images: [
+    {
     url: {
         type: String,
         required: true,
     },
     altText: {
         type: String,
-    }
-}
+    },
+},
 ],
 isFeatured: {
     type: Boolean,
@@ -92,7 +93,7 @@ metaDescription: {
     type: String,
 },
 metaKeywords: {
-    type: [String],
+    type: String,
 },
 dimensions: {
     length: Number,
