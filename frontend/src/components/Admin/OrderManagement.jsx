@@ -10,19 +10,19 @@ const OrderManagement = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user } = useSelector((state) => state.auth);
-  const { orders, loading, error } = useSelector((state) => state.adminOrders);
+  const { user } = useSelector((state) => state.auth);    // On récupère l'utilisateur connecté depuis le store Redux. En effet, on utilise le hook useSelector pour accéder à l'état de l'utilisateur dans le store Redux. L'utilisateur est stocké dans l'état du slice auth, qui est géré par le reducer authSlice.
+  const { orders, loading, error } = useSelector((state) => state.adminOrders);  // On récupère les commandes de l'admin depuis le store Redux. En effet, on utilise le hook useSelector pour accéder à l'état des commandes dans le store Redux. Les commandes sont stockées dans l'état du slice adminOrders, qui est géré par le reducer adminOrderSlice.
 
-  useEffect(() => {
-    if (!user || user.role !== "admin") {
-      navigate("/");
-    } else {
-      dispatch(fetchAllOrders());
+  useEffect(() => {                                       // Ici, on va vérifier si l'utilisateur est un admin avant de charger les commandes 
+    if (!user || user.role !== "admin") {                 // Si l'utilisateur n'est pas connecté ou n'est pas un admin, on le redirige vers la page d'accueil.
+      navigate("/");                                      // On redirige l'utilisateur vers la page d'accueil s'il n'est pas connecté ou n'est pas un admin.
+    } else {                                              // Si l'utilisateur est connecté et est un admin, on charge les commandes.
+      dispatch(fetchAllOrders());                         // On utilise la fonction fetchAllOrders pour charger toutes les commandes de l'admin.
     }
-  }, [dispatch, user, navigate]);
+  }, [dispatch, user, navigate]);                         // On utilise useEffect pour charger les commandes de l'admin lorsque le composant est monté ou lorsque l'utilisateur change.
 
-  const handleStatusChange = (orderId, status) => {
-    dispatch(updateOrderStatus({ id: orderId, status }));
+  const handleStatusChange = (orderId, status) => {       // On crée une fonction pour gérer le changement de statut d'une commande. Cette fonction sera appelée lorsque l'utilisateur sélectionne un nouveau statut dans le menu déroulant.
+    dispatch(updateOrderStatus({ id: orderId, status })); // On utilise la fonction updateOrderStatus pour mettre à jour le statut de la commande. On passe l'ID de la commande et le nouveau statut en paramètre.
   };
 
   if (loading) return <p>Loading...</p>;
