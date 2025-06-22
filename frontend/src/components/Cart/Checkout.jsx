@@ -8,8 +8,8 @@ import axios from "axios";
 const Checkout = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { cart, loading, error } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.auth);
+  const { cart, loading, error } = useSelector((state) => state.cart);  // Ici on veut récupérer le panier depuis le store Redux. En effet, on utilise le hook useSelector pour accéder à l'état du panier dans le store Redux. Le panier est stocké dans l'état du slice cart, qui est géré par le reducer cartSlice. Cela nous permet d'accéder aux produits du panier, au prix total et à d'autres informations pertinentes pour le processus de paiement.
+  const { user } = useSelector((state) => state.auth);                  // Ici on veut récupérer l'utilisateur connecté depuis le store Redux. En effet, on utilise le hook useSelector pour accéder à l'état de l'utilisateur dans le store Redux. L'utilisateur est stocké dans l'état du slice auth, qui est géré par le reducer authSlice. Cela nous permet d'accéder aux informations de l'utilisateur, telles que son nom et son email, pour les afficher dans la page de paiement.
 
   const [checkoutId, setCheckoutId] = useState(null);
   const [shippingAddress, setShippingAddress] = useState({
@@ -24,23 +24,23 @@ const Checkout = () => {
 
   // Ensure cart is loaded before proceeding
   useEffect(() => {
-    if (!cart || !cart.products || cart.products.length === 0) {
+    if (!cart || !cart.products || cart.products.length === 0) {                 // Ici on vérifie si le panier est vide ou n'a pas de produits. Si c'est le cas, on redirige l'utilisateur vers la page d'accueil. Cela permet de s'assurer que l'utilisateur ne peut pas accéder à la page de paiement sans avoir ajouté des produits à son panier.
       navigate("/");
     }
   }, [cart, navigate]);
 
-  const handleCreateCheckout = async (e) => {
+  const handleCreateCheckout = async (e) => {       // Ici on crée une fonction asynchrone handleCreateCheckout qui sera appelée lorsque l'utilisateur soumettra le formulaire de paiement. Cette fonction est responsable de la création d'un checkout avec les informations du panier et de l'adresse de livraison.
     e.preventDefault();
-    if (cart && cart.products.length > 0) {
-      const res = await dispatch(
-        createCheckout({
-          checkoutItems: cart.products,
-          shippingAddress,
-          paymentMethod: "Paypal",
-          totalPrice: cart.totalPrice,
+    if (cart && cart.products.length > 0) {         // On vérifie si le panier existe et s'il contient des produits avant de procéder à la création du checkout.
+      const res = await dispatch(                   // On utilise le dispatch pour appeler l'action createCheckout avec les informations du panier, de l'adresse de livraison, du mode de paiement et du prix total.
+        createCheckout({                            // On utilise createCheckout pour créer un checkout avec les informations du panier, de l'adresse de livraison, du mode de paiement et du prix total.
+          checkoutItems: cart.products,             // On passe les produits du panier comme checkoutItems.
+          shippingAddress,                          // On passe l'adresse de livraison comme shippingAddress.
+          paymentMethod: "Paypal",                  // On utilise "Paypal" comme méthode de paiement. 
+          totalPrice: cart.totalPrice,              // On passe le prix total du panier comme totalPrice.
         })
       );
-      if (res.payload && res.payload._id) {
+      if (res.payload && res.payload._id) {          // On vérifie si la réponse contient un ID de checkout. Si c'est le cas, on met à jour l'état checkoutId avec cet ID.
         setCheckoutId(res.payload._id); // Set checkout ID if chekout was successful
       }
     }
@@ -64,20 +64,20 @@ const Checkout = () => {
     }
   };
 
-  const handleFinalizeCheckout = async (checkoutId) => {
+  const handleFinalizeCheckout = async (checkoutId) => {           // Ici on crée une fonction asynchrone handleFinalizeCheckout qui sera appelée pour finaliser le checkout après le paiement réussi. Cette fonction envoie une requête PUT à l'API pour marquer le checkout comme finalisé.
     try {
-      await axios.post(
+      await axios.post(                                            // On utilise axios pour envoyer une requête POST à l'API pour finaliser le checkout.
         `${
           import.meta.env.VITE_BACKEND_URL
         }/api/checkout/${checkoutId}/finalize`,
         {},
         {
           headers: {
-            Authorization: `Bearer ${localStorage.getItem("userToken")}`,
+            Authorization: `Bearer ${localStorage.getItem("userToken")}`,   
           },
         }
       );
-      navigate("/order-confirmation");
+      navigate("/order-confirmation");                             // On redirige l'utilisateur vers la page de confirmation de commande après la finalisation du checkout.
     } catch (error) {
       console.error(error);
     }
@@ -100,7 +100,7 @@ const Checkout = () => {
             <label className="block text-gray-700">Email</label>
             <input
               type="email"
-              value={user ? user.email : ""}
+              value={user ? user.email : ""}          // Ici on utilise l'email de l'utilisateur connecté pour pré-remplir le champ email. Si l'utilisateur n'est pas connecté, le champ sera vide.
               className="w-full p-2 border rounded"
               disabled
             />

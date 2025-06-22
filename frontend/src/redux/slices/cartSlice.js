@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
-import axios from "axios";
+import axios from "axios";                                                // Axios est une bibliothèque JavaScript qui permet de faire des requêtes HTTP depuis le navigateur ou Node.js. Elle est souvent utilisée pour interagir avec des API RESTful. fetch est une API native du navigateur pour faire des requêtes HTTP, mais Axios offre une interface plus simple et plus puissante, avec des fonctionnalités supplémentaires comme la gestion des erreurs, les interceptors, et la possibilité d'annuler des requêtes. Dans ce cas, on utilise Axios pour faire des requêtes HTTP vers l'API backend pour gérer le panier d'achat (cart) de l'utilisateur ou de l'invité (guest). 
 
 // Helper function to load cart from localStorage
 const loadCartFromStorage = () => {
@@ -58,15 +58,15 @@ export const addToCart = createAsyncThunk(
 );
 
 // Update the quantity of an item in the cart
-export const updateCartItemQuantity = createAsyncThunk(
-  "cart/updateCartItemQuantity",
-  async (
-    { productId, quantity, guestId, userId, size, color },
-    { rejectWithValue }
+export const updateCartItemQuantity = createAsyncThunk(                      // Ici on utilise createAsyncThunk pour créer une action asynchrone qui met à jour la quantité d'un article dans le panier.
+  "cart/updateCartItemQuantity",                                             // Cette action asynchrone est appelée "cart/updateCartItemQuantity" et sera utilisée pour mettre à jour la quantité d'un article dans le panier.
+  async (                                                                    // Ici on définit la fonction asynchrone qui sera exécutée lorsque l'action sera appelée.
+    { productId, quantity, guestId, userId, size, color },                   // On récupère les paramètres nécessaires pour mettre à jour la quantité d'un article dans le panier. A savoir : productId (l'ID du produit), quantity (la nouvelle quantité), guestId (l'ID de l'invité), userId (l'ID de l'utilisateur), size (la taille du produit) et color (la couleur du produit). En effet, on peut mettre à jour la quantité d'un article dans le panier en fonction de ces paramètres.
+    { rejectWithValue }                                                      // On utilise rejectWithValue pour gérer les erreurs qui peuvent survenir lors de l'exécution de cette action asynchrone. En effet, si une erreur se produit lors de l'exécution de cette action asynchrone, on peut renvoyer une valeur d'erreur personnalisée en utilisant rejectWithValue. Par exemple, si une erreur se produit lors de la mise à jour de la quantité d'un article dans le panier, on peut renvoyer un message d'erreur personnalisé en utilisant rejectWithValue.
   ) => {
     try {
-      const response = await axios.put(
-        `${import.meta.env.VITE_BACKEND_URL}/api/cart`,
+      const response = await axios.put(                                       // On utilise axios pour envoyer une requête PUT à l'API pour mettre à jour la quantité d'un article dans le panier.
+        `${import.meta.env.VITE_BACKEND_URL}/api/cart`,                       // On utilise l'URL de l'API pour mettre à jour la quantité d'un article dans le panier.
         {
           productId,
           quantity,
@@ -84,9 +84,9 @@ export const updateCartItemQuantity = createAsyncThunk(
 );
 
 // Remove an item from the cart
-export const removeFromCart = createAsyncThunk(
-  "cart/removeFromCart",
-  async ({ productId, guestId, userId, size, color }, { rejectWithValue }) => {
+export const removeFromCart = createAsyncThunk(                             // On utilise createAsyncThunk pour créer une action asynchrone qui supprime un article du panier.
+  "cart/removeFromCart",                                                    // Cette action asynchrone est appelée "cart/removeFromCart" et sera utilisée pour supprimer un article du panier.
+  async ({ productId, guestId, userId, size, color }, { rejectWithValue }) => {  // On définit la fonction asynchrone qui sera exécutée lorsque l'action sera appelée. On récupère les paramètres nécessaires pour supprimer un article du panier. A savoir : productId (l'ID du produit), guestId (l'ID de l'invité), userId (l'ID de l'utilisateur), size (la taille du produit) et color (la couleur du produit). En effet, on peut supprimer un article du panier en fonction de ces paramètres.
     try {
       const response = await axios({
         method: "DELETE",

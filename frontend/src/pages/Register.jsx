@@ -12,8 +12,8 @@ const Register = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
   const location = useLocation();
-  const { user, guestId, loading } = useSelector((state) => state.auth);
-  const { cart } = useSelector((state) => state.cart);
+  const { user, guestId, loading } = useSelector((state) => state.auth); // Ici on utilise le hook useSelector pour accéder à l'état de l'utilisateur dans le store Redux. On récupère l'utilisateur connecté depuis le slice auth, qui est géré par le reducer authSlice. Cela nous permet d'accéder aux informations de l'utilisateur, telles que son nom et son email, pour les afficher dans la page de profil. Si l'utilisateur n'est pas connecté, on redirige vers la page de connexion. D'autre part, on récupère également l'ID de l'invité (guestId) et l'état de chargement (loading) depuis le slice auth. L'ID de l'invité est utilisé pour identifier les utilisateurs non connectés, tandis que l'état de chargement est utilisé pour afficher un indicateur de chargement pendant que la requête d'inscription est en cours.
+  const { cart } = useSelector((state) => state.cart);                   // On récupère le panier depuis le store Redux. En effet, on utilise le hook useSelector pour accéder à l'état du panier dans le store Redux. Le panier est stocké dans l'état du slice cart, qui est géré par le reducer cartSlice.
 
   // Get redirect parameter and check if it's checkout or something
   const redirect = new URLSearchParams(location.search).get("redirect") || "/";

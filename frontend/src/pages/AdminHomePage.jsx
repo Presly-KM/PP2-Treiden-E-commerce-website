@@ -4,20 +4,20 @@ import { Link } from "react-router-dom";
 import { fetchAdminProducts } from "../redux/slices/adminProductSlice";
 import { fetchAllOrders } from "../redux/slices/adminOrderSlice";
 
-const AdminHomePage = () => {
-  const dispatch = useDispatch();
-  const {
-    products,
-    loading: productsLoading,
-    error: productsError,
-  } = useSelector((state) => state.adminProducts);
+const AdminHomePage = () => {                                  // Ici, on crée un composant AdminHomePage qui représente la page d'accueil du tableau de bord administrateur. Ce composant est responsable de l'affichage des statistiques et des informations importantes pour les administrateurs.
+  const dispatch = useDispatch();                              // On utilise useDispatch pour obtenir la fonction dispatch qui nous permet d'envoyer des actions à Redux. Cela nous permettra de déclencher des actions pour récupérer les produits et les commandes administratives.
+  const {                                                      // On utilise useSelector pour accéder à l'état du store Redux. Cela nous permet de récupérer les données nécessaires pour afficher les statistiques et les informations importantes sur la page d'accueil du tableau de bord administrateur.
+    products,                                                  // On récupère les produits depuis le store Redux. products est un tableau contenant les produits récupérés depuis la base de données.
+    loading: productsLoading,                                  // On récupère les produits, l'état de chargement des produits et les erreurs éventuelles liées aux produits depuis le store Redux. products est un tableau contenant les produits, productsLoading est un booléen indiquant si les produits sont en cours de chargement, et productsError est une chaîne de caractères contenant une erreur éventuelle liée aux produits.
+    error: productsError,                                      // On récupère les erreurs éventuelles liées aux produits depuis le store Redux. productsError est une chaîne de caractères contenant une erreur éventuelle liée aux produits.
+  } = useSelector((state) => state.adminProducts);             // On utilise useSelector pour accéder à l'état du store Redux et récupérer les produits, l'état de chargement des produits et les erreurs éventuelles liées aux produits. state.adminProducts est le slice du store Redux qui contient les données des produits administratifs. N.B: Le state.adminProducts est le slice du store Redux qui contient les données des produits administratifs. Il est géré par le reducer adminProductSlice.js, qui est responsable de la récupération et de la gestion des produits administratifs dans l'application. Autre N.B: Le code ci-contre se lit de la manière suivante : on utilise le hook useSelector pour accéder à l'état du store Redux, puis on récupère les produits, l'état de chargement des produits et les erreurs éventuelles liées aux produits depuis le slice adminProducts. On utilise la déstructuration pour extraire ces valeurs directement depuis l'objet retourné par useSelector.
   const {
     orders,
     totalOrders,
     totalSales,
     loading: ordersLoading,
     error: ordersError,
-  } = useSelector((state) => state.adminOrders);
+  } = useSelector((state) => state.adminOrders);               // On utilise useSelector pour accéder à l'état du store Redux et récupérer les commandes, le nombre total de commandes, le chiffre d'affaires total, l'état de chargement des commandes et les erreurs éventuelles liées aux commandes. state.adminOrders est le slice du store Redux qui contient les données des commandes administratives. Il est géré par le reducer adminOrderSlice.js, qui est responsable de la récupération et de la gestion des commandes administratives dans l'application.
 
   useEffect(() => {
     dispatch(fetchAdminProducts());
@@ -37,7 +37,7 @@ const AdminHomePage = () => {
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
           <div className="p-4 shadow-md rounded-lg">
             <h2 className="text-xl font-semibold">Revenue</h2>
-            <p className="text-2xl">${totalSales.toFixed(2)}</p>
+            <p className="text-2xl">${totalSales.toFixed(2)}</p>         {/* On affiche le chiffre d'affaires total avec deux décimales. totalSales est une variable qui contient le chiffre d'affaires total des commandes. On utilise toFixed(2) pour formater le chiffre d'affaires avec deux décimales, ce qui est courant pour les montants monétaires. */}
           </div>
           <div className="p-4 shadow-md rounded-lg">
             <h2 className="text-xl font-semibold">Total Orders</h2>
@@ -79,7 +79,7 @@ const AdminHomePage = () => {
                   >
                     <td className="p-4">{order._id}</td>
                     <td className="p-4">{order.user?.name}</td>
-                    <td className="p-4">{order.totalPrice.toFixed(2)}</td>
+                    <td className="p-4">{order.totalPrice.toFixed(2)}</td>  {/* On affiche le prix total de la commande avec deux décimales. order.totalPrice est une variable qui contient le prix total de la commande. On utilise toFixed(2) pour formater le prix avec deux décimales, ce qui est courant pour les montants monétaires. */}
                     <td className="p-4">{order.status}</td>
                   </tr>
                 ))

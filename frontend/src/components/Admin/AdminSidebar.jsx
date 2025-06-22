@@ -5,11 +5,11 @@ import { useDispatch } from "react-redux";
 import { clearCart } from "../../redux/slices/cartSlice";
 
 
-const AdminSidebar = () => {
-    const navigate = useNavigate();
+const AdminSidebar = () => {               // Ici, nous créons un composant AdminSidebar qui représente la barre latérale du tableau de bord administrateur. Il contient des liens de navigation vers différentes sections de l'administration, telles que les utilisateurs, les produits et les commandes.
+    const navigate = useNavigate();        // Ici nous utilisons useNavigate de react-router-dom pour gérer la navigation dans l'application. useNavigate est un hook qui permet de naviguer vers une autre page ou de rediriger l'utilisateur vers une autre page. Il est utilisé pour rediriger l'utilisateur vers la page d'accueil après la déconnexion.
      const dispatch = useDispatch();
     
-     const handleLogout = () => {
+     const handleLogout = () => {          // Ici, nous définissons une fonction handleLogout qui sera appelée lorsque l'utilisateur cliquera sur le bouton de déconnexion. Cette fonction va déclencher l'action de déconnexion et effacer le panier.
         dispatch(logout());
         dispatch(clearCart());
       navigate("/");                        // Redirect to home page on logout

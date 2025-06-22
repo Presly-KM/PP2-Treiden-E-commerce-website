@@ -6,11 +6,11 @@ import { fetchOrderDetails } from "../redux/slices/orderSlice";
 const OrderDetailsPage = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
-  const { orderDetails, loading, error } = useSelector((state) => state.orders);
+  const { orderDetails, loading, error } = useSelector((state) => state.orders);  // A la ligne, on utilise le hook useSelector pour accéder à l'état des commandes dans le store Redux. Plus précisément, on accède à l'état orderDetails, loading et error du slice orders, qui est géré par le reducer orderSlice. Cela nous permet de récupérer les détails de la commande, l'état de chargement et les erreurs éventuelles liées à la récupération des détails de la commande.
 
   useEffect(() => {
     dispatch(fetchOrderDetails(id));
-  }, [dispatch, id]);
+  }, [dispatch, id]);                              // Ici, on utilise le hook useEffect pour déclencher l'action fetchOrderDetails lorsque le composant est monté ou lorsque l'ID de la commande change. Plus précisément, on utilise dispatch(fetchOrderDetails(id)) pour récupérer les détails de la commande en fonction de l'ID passé dans l'URL. Cela permet de charger les détails de la commande dès que le composant est monté ou que l'ID de la commande change.
 
   if (loading) return <p>Loading...</p>;
   if (error) return <p>Error: {error}</p>;

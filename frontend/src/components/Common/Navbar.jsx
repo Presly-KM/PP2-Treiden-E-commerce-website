@@ -13,11 +13,11 @@ import { useSelector } from "react-redux";
 const Navbar = () => {
   const [drawerOpen, setDrawerOpen] = useState(false);
   const [navDrawerOpen, setNavDrawerOpen] = useState(false);
-  const { cart } = useSelector((state) => state.cart);
-  const { user } = useSelector((state) => state.auth);
+  const { cart } = useSelector((state) => state.cart);                        // A cette ligne, on récupère le panier depuis le store Redux. En effet, on utilise le hook useSelector pour accéder à l'état du panier dans le store Redux. Le panier est stocké dans l'état du slice cart, qui est géré par le reducer cartSlice.
+  const { user } = useSelector((state) => state.auth);                        // On récupère l'utilisateur connecté depuis le store Redux. En effet, on utilise le hook useSelector pour accéder à l'état de l'utilisateur dans le store Redux. L'utilisateur est stocké dans l'état du slice auth, qui est géré par le reducer authSlice.
 
-  const cartItemCount =
-    cart?.products?.reduce((total, product) => total + product.quantity, 0) ||
+  const cartItemCount =                                                       // On calcule le nombre total d'articles dans le panier. En effet, on utilise la méthode reduce pour parcourir les produits du panier et additionner les quantités de chaque produit. Si le panier est vide ou n'a pas de produits, on retourne 0.
+    cart?.products?.reduce((total, product) => total + product.quantity, 0) ||  // Plus précisément, on utilise la méthode reduce pour parcourir les produits du panier et additionner les quantités de chaque produit. Si le panier est vide ou n'a pas de produits, on retourne 0. Par exemple, si le panier contient 2 produits avec une quantité de 3 et 5 respectivement, le nombre total d'articles dans le panier sera de 8. Si le panier est vide ou n'a pas de produits, on retourne 0.
     0;
 
   const toggleNavDrawer = () => {
@@ -66,7 +66,7 @@ const Navbar = () => {
         </div>
         {/* Right - Icons */}
         <div className="flex items-center space-x-4">
-          {user && user.role === "admin" && (
+          {user && user.role === "admin" && (                       // On vérifie si l'utilisateur est connecté et s'il a le rôle d'administrateur. Si c'est le cas, on affiche un lien vers la page d'administration.
             <Link
               to="/admin"
               className="block bg-black px-2 rounded text-sm text-white"
@@ -83,9 +83,9 @@ const Navbar = () => {
             className="relative hover:text-black"
           >
             <HiOutlineShoppingBag className="h-6 w-6 text-gray-700" />
-            {cartItemCount > 0 && (
+            {cartItemCount > 0 && (                                           // On vérifie si le nombre d'articles dans le panier est supérieur à 0. Si c'est le cas, on affiche un badge avec le nombre d'articles dans le panier. Sinon, on n'affiche rien.
               <span className="absolute -top-1 bg-rabbit-red text-white text-xs rounded-full px-2 py-0.5">
-                {cartItemCount}
+                {cartItemCount}                                               {/* Ici, on affiche le nombre total d'articles dans le panier. Plus précisément, on utilise la variable cartItemCount qui a été calculée précédemment pour afficher le nombre total d'articles dans le panier. Si le panier est vide ou n'a pas de produits, on n'affiche rien.*/}
               </span>
             )}
           </button>

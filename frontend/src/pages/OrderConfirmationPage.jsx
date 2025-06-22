@@ -6,17 +6,17 @@ import { clearCart } from "../redux/slices/cartSlice";
 const OrderConfirmationPage = () => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { checkout } = useSelector((state) => state.checkout);
+  const { checkout } = useSelector((state) => state.checkout);  // Ici on récupère les informations de la commande depuis le store Redux. En effet, on utilise le hook useSelector pour accéder à l'état de la commande dans le store Redux. La commande est stockée dans l'état du slice checkout, qui est géré par le reducer checkoutSlice.
 
   // Clear the cart when the order is confirmed
   useEffect(() => {
-    if (checkout && checkout._id) {
+    if (checkout && checkout._id) {                  // Ici on vérifie si la commande a été confirmée en vérifiant si checkout et checkout._id existent. Si c'est le cas, on vide le panier en appelant la fonction clearCart du slice cartSlice. Cela permet de s'assurer que le panier est vidé après la confirmation de la commande.
       dispatch(clearCart());
       localStorage.removeItem("cart");
     } else {
       navigate("/my-orders");
     }
-  }, [checkout, dispatch, navigate]);
+  }, [checkout, dispatch, navigate]);               // On utilise useEffect pour exécuter une action lorsque la commande est confirmée. Si la commande a été confirmée, on vide le panier en appelant la fonction clearCart du slice cartSlice. Si la commande n'a pas été confirmée, on redirige l'utilisateur vers la page de ses commandes.
 
   const calculateEstimatedDelivery = (createdAt) => {
     const orderDate = new Date(createdAt);

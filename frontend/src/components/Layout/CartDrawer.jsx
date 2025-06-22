@@ -5,9 +5,9 @@ import { useSelector } from "react-redux";
 
 const CartDrawer = ({ drawerOpen, toggleCartDrawer }) => {
   const navigate = useNavigate();
-  const { user, guestId } = useSelector((state) => state.auth);
-  const { cart } = useSelector((state) => state.cart);
-  const userId = user ? user._id : null;
+  const { user, guestId } = useSelector((state) => state.auth); // Ici on récupère l'utilisateur connecté ou l'ID invité depuis le store Redux. En effet, si l'utilisateur est connecté, on récupère ses informations, sinon on récupère l'ID de l'invité. state.auth contient les informations de l'utilisateur connecté ou de l'invité, et dans la ligne de code ci-dessous state.cart contient les informations du panier.
+  const { cart } = useSelector((state) => state.cart);        // Ici on récupère le panier depuis le store Redux. State.cart contient les informations du panier, y compris les produits ajoutés au panier par l'utilisateur ou l'invité. On utilise useSelector pour accéder à ces informations depuis le store Redux, ce qui permet de gérer l'état du panier de manière centralisée dans l'application. useSelector est un hook de React-Redux qui permet de sélectionner une partie de l'état du store Redux. Dans ce cas, on utilise useSelector pour accéder à l'état du panier (cart) dans le store Redux. Cela permet de récupérer les informations du panier et de les utiliser dans le composant CartDrawer.
+  const userId = user ? user._id : null;                       // Si l'utilisateur est connecté, on récupère son ID, sinon on le laisse à null
 
   const handleCheckout = () => {
     toggleCartDrawer();

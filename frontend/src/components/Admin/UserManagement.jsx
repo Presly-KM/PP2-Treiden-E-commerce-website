@@ -8,28 +8,28 @@ import {
   updateUser,
 } from "../../redux/slices/adminSlice";
 
-const UserManagement = () => {
+const UserManagement = () => {                     // Ici, on crée un composant UserManagement qui gère la gestion des utilisateurs dans l'interface d'administration. Il permet à l'administrateur d'ajouter, de modifier et de supprimer des utilisateurs.
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
-  const { user } = useSelector((state) => state.auth);
-  const { users, loading, error } = useSelector((state) => state.admin);
+  const { user } = useSelector((state) => state.auth); // On récupère l'utilisateur connecté depuis le store Redux. En effet, on utilise le hook useSelector pour accéder à l'état de l'utilisateur dans le store Redux. L'utilisateur est stocké dans l'état du slice auth, qui est géré par le reducer authSlice.
+  const { users, loading, error } = useSelector((state) => state.admin);  // On récupère les utilisateurs, le chargement et les erreurs depuis le store Redux. En effet, on utilise le hook useSelector pour accéder à l'état des utilisateurs dans le store Redux. Les utilisateurs sont stockés dans l'état du slice admin, qui est géré par le reducer adminSlice. Le chargement et les erreurs sont également stockés dans cet état.
 
-  useEffect(() => {
+  useEffect(() => {                                // On vérifie si l'utilisateur est connecté et s'il a le rôle d'administrateur. Si ce n'est pas le cas, on redirige l'utilisateur vers la page d'accueil.
     if (user && user.role !== "admin") {
       navigate("/");
     }
   }, [user, navigate]);
 
-  useEffect(() => {
+  useEffect(() => {                                // On vérifie si l'utilisateur est connecté et s'il a le rôle d'administrateur. Si c'est le cas, on récupère la liste des utilisateurs depuis le store Redux en dispatchant l'action fetchUsers.
     if (user && user.role === "admin") {
-      dispatch(fetchUsers());
+      dispatch(fetchUsers());                     // On dispatch l'action fetchUsers pour récupérer la liste des utilisateurs depuis le store Redux. Cette action est gérée par le reducer adminSlice, qui met à jour l'état des utilisateurs dans le store Redux.
     }
   }, [dispatch, user]);
 
-  const [formData, setFormData] = useState({
-    name: "",
-    email: "",
+  const [formData, setFormData] = useState({       // On initialise l'état du formulaire avec les données par défaut pour ajouter un nouvel utilisateur.
+    name: "",                                      // Le nom de l'utilisateur est initialisé à une chaîne vide.
+    email: "",           
     password: "",
     role: "customer", // Default role
   });
@@ -54,8 +54,8 @@ const UserManagement = () => {
     });
   };
 
-  const handleRoleChange = (userId, newRole) => {
-    dispatch(updateUser({ id: userId, role: newRole }));
+  const handleRoleChange = (userId, newRole) => {                   // On gère le changement de rôle d'un utilisateur. Cette fonction est appelée lorsque l'administrateur change le rôle d'un utilisateur dans la liste des utilisateurs.
+    dispatch(updateUser({ id: userId, role: newRole }));            // On dispatch l'action updateUser avec l'ID de l'utilisateur et le nouveau rôle. Ainsi, on met à jour le rôle de l'utilisateur dans le store Redux. Cette action est gérée par le reducer adminSlice, qui met à jour l'état des utilisateurs dans le store Redux.
   };
 
   const handleDeleteUser = (userId) => {

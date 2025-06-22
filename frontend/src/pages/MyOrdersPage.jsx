@@ -6,7 +6,7 @@ import { fetchUserOrders } from "../redux/slices/orderSlice";
 const MyOrdersPage = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { orders, loading, error } = useSelector((state) => state.orders);
+  const { orders, loading, error } = useSelector((state) => state.orders);  // Ca veut dire qu'on accède à l'état des commandes de l'utilisateur connecté, qui est géré par le reducer orderSlice. On utilise le hook useSelector pour accéder à cet état dans le store Redux. Les commandes sont stockées dans l'état orders, qui est un tableau d'objets représentant les commandes passées par l'utilisateur.
 
   useEffect(() => {
     dispatch(fetchUserOrders());

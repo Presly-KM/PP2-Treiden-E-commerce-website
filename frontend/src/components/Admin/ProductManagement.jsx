@@ -6,18 +6,18 @@ import {
   fetchAdminProducts,
 } from "../../redux/slices/adminProductSlice";
 
-const ProductManagement = () => {
+const ProductManagement = () => {                               // Ici, nous créons un composant ProductManagement qui gère l'affichage et la gestion des produits pour les administrateurs. Il utilise Redux pour récupérer les produits, gérer leur chargement et les erreurs, et permet aux administrateurs de supprimer des produits.
   const dispatch = useDispatch();
-  const { products, loading, error } = useSelector(
-    (state) => state.adminProducts
+  const { products, loading, error } = useSelector(             // Ici, nous utilisons le hook useSelector pour accéder à l'état du store Redux. Nous récupérons les produits, l'état de chargement et les erreurs depuis le slice adminProductSlice. Cela nous permet d'afficher les produits, de gérer l'état de chargement et de gérer les erreurs dans notre composant.
+    (state) => state.adminProducts                              // Ici, nous accédons à l'état du slice adminProducts dans le store Redux. Ce slice contient les produits administrés, l'état de chargement et les erreurs éventuelles. Nous utilisons useSelector pour accéder à cet état et le stocker dans des variables locales.
   );
 
-  useEffect(() => {
+  useEffect(() => {                                       
     dispatch(fetchAdminProducts());
   }, [dispatch]);
 
-  const handleDelete = (id) => {
-    if (window.confirm("Are you sure you want to delete the Product?")) {
+  const handleDelete = (id) => {                                // Ici, nous créons une fonction handleDelete qui sera appelée lorsque l'administrateur cliquera sur le bouton de suppression d'un produit. Cette fonction prend en paramètre l'ID du produit à supprimer.
+    if (window.confirm("Are you sure you want to delete the Product?")) {   // Ici, nous affichons une boîte de dialogue de confirmation pour demander à l'administrateur s'il est sûr de vouloir supprimer le produit. Si l'administrateur confirme, nous appelons la fonction dispatch pour supprimer le produit en utilisant l'action deleteProduct. 
       dispatch(deleteProduct(id));
     }
   };

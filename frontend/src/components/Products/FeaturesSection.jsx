@@ -1,4 +1,3 @@
-import React from "react";
 import { HiOutlineCreditCard, HiShoppingBag } from "react-icons/hi";
 import { HiArrowPathRoundedSquare } from "react-icons/hi2";
 

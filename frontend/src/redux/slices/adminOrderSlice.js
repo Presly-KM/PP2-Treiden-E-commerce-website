@@ -22,9 +22,9 @@ export const fetchAllOrders = createAsyncThunk(
 );
 
 // update order delivery status
-export const updateOrderStatus = createAsyncThunk(
+export const updateOrderStatus = createAsyncThunk(                           // Ici on utilise createAsyncThunk pour créer une action asynchrone qui va mettre à jour le statut d'une commande. Cette action est appelée "adminOrders/updateOrderStatus" et prend en paramètre un objet contenant l'ID de la commande (id) et le nouveau statut (status) à mettre à jour. On utilise également rejectWithValue pour gérer les erreurs éventuelles lors de la mise à jour du statut de la commande.
   "adminOrders/updateOrderStatus",
-  async ({ id, status }, { rejectWithValue }) => {
+  async ({ id, status }, { rejectWithValue }) => {                           // On définit la fonction asynchrone qui sera exécutée lorsque l'action sera appelée. Cette fonction prend en paramètre l'ID de la commande (id) et le nouveau statut (status) à mettre à jour, ainsi que rejectWithValue pour gérer les erreurs éventuelles lors de la mise à jour du statut de la commande.
     try {
       const response = await axios.put(
         `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
@@ -43,11 +43,11 @@ export const updateOrderStatus = createAsyncThunk(
 );
 
 // Delete an order
-export const deleteOrder = createAsyncThunk(
+export const deleteOrder = createAsyncThunk(                               // Ici on utilise createAsyncThunk pour créer une action asynchrone qui va supprimer une commande. Cette action est appelée "adminOrders/deleteOrder" et prend en paramètre l'ID de la commande (id) à supprimer. On utilise également rejectWithValue pour gérer les erreurs éventuelles lors de la suppression de la commande.
   "adminOrders/deleteOrder",
-  async (id, { rejectWithValue }) => {
+  async (id, { rejectWithValue }) => {                                     // On définit la fonction asynchrone qui sera exécutée lorsque l'action sera appelée. Cette fonction prend en paramètre l'ID de la commande (id) à supprimer, ainsi que rejectWithValue pour gérer les erreurs éventuelles lors de la suppression de la commande.
     try {
-      await axios.delete(
+      await axios.delete(                                                  // On utilise axios pour envoyer une requête DELETE à l'API pour supprimer la commande. axios est une bibliothèque JavaScript qui permet d'effectuer des requêtes HTTP de manière simple et efficace.
         `${import.meta.env.VITE_BACKEND_URL}/api/admin/orders/${id}`,
         {
           headers: {

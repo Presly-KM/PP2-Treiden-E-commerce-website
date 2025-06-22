@@ -34,7 +34,7 @@ export const addUser = createAsyncThunk(
 );
 
 // Update user info
-export const updateUser = createAsyncThunk(
+export const updateUser = createAsyncThunk(                             // Ici on utilise createAsyncThunk pour créer une action asynchrone qui va mettre à jour les informations d'un utilisateur. Cette action est appelée "admin/updateUser" et prend en paramètre un objet contenant l'ID de l'utilisateur à mettre à jour, ainsi que les nouvelles informations (nom, email et rôle).
   "admin/updateUser",
   async ({ id, name, email, role }) => {
     const response = await axios.put(
